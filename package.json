@@ -1,0 +1,16 @@
+{
+  "browser": {
+    "fs": false
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "superagent": "3.7.0"
+  },
+  "deprecated": false,
+  "description": "This project is a javascript SDK for the Conrad Connect PaaS API.",
+  "license": "MIT",
+  "main": "bundle.cjs.js",
+  "module": "bundle.esm.js",
+  "name": "@conradconnect/paas-api",
+  "version": "1.1.1-beta2"
+}
