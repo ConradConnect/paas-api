@@ -2,9 +2,11 @@
 
 #### Version 1.0.3
 
-This document is strictly private, confidential and personal to its recipients and should not be copied, distributed or reproduced in whole or in part, nor passed to any third party.
-
 The Conrad Connect Platform as a Service API enables you to use the IoT core and environment of Conrad Connect within your own software. This generates endless possibilities for automation and services.
+
+## Get API Access
+
+Please see https://conradconnect.com/en/platform-service for contact information. 
 
 ## Introduction
 
