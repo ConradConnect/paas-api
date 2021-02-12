@@ -175,7 +175,7 @@ The `PATCH` endpoint works with partial sets of the user properties, e.g. only t
 These endpoints are using the user auth without your client credentials. Therefore they should contain an auth header:
 
 ```
-Authorization: Basic <access_token>
+Authorization: Bearer <access_token>
 ```
 
 ## Provider Management
@@ -188,7 +188,7 @@ You receive a list of all available providers through the `GET /providers` endpo
 
 ```bash
 curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/providers' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 The array of providers is nested in the `data` property. On the first level of properties you find the provider object as documented in the table below:
@@ -223,7 +223,7 @@ You start the process through this endpoint:
 
 ```bash
 curl --location --request POST 'https://dashboard.conradconnect.de/paasapi/providers/<providerId>/connect?redirect_uri=<redirect_uri>' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 In case of success, the endpoint returns with a 3xx status code. Depending on the method/framework you are using, you might have to manually redirect the client to the page provided by the location header (_cf._ [https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections](https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections)).
@@ -236,7 +236,7 @@ Upon connection, the devices are not yet refreshed. In order to receive the devi
 
 ```bash
 curl --location --request POST 'https://dashboard.conradconnect.de/paasapi/providers/<providerId>/refresh' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 Similar, disconnect and a disconnect with deleting the user's date are also available: `POST /providers/<providerId>/disconnect` and `POST /providers/<providerId>/disconnect-and-delete-data`, respectively.
@@ -253,15 +253,15 @@ Available definitions can be queried using the `GET /abstraction/list-all` endpo
 
 #### Get devices
 
-Using the `GET /abstraction/devices` endpoint, you can receive a filtered list of devices. Filtering is possible for types, properties, and events.
+Using the `GET /abstraction/device` endpoint, you can receive a filtered list of devices. Filtering is possible for types, properties, and events.
 
 ```bash
-curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/abstraction/devices' \
---header 'Authorization: Basic <access_token>'
+curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/abstraction/device' \
+--header 'Authorization: Bearer <access_token>'
 ```
 
 It returns a list of single devices, examples can be found in the swagger file.
-You can apply various filters for `types`, `properties`, and `events` by appending them to the query string, e.g. `GET /abstraction/devices?types[]=motion&types[]=dimmer` which would return devices which have the types`motion` or `dimmer`.
+You can apply various filters for `types`, `properties`, and `events` by appending them to the query string, e.g. `GET /abstraction/device?types[]=motion&types[]=dimmer` which would return devices which have the types`motion` or `dimmer`.
 
 #### Device IoT data
 
@@ -269,7 +269,7 @@ You can query data using the `GET /device/<deviceId>/data/<property>`
 
 ```bash
 curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/abstraction/device/<deviceId>/data/<property>' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 It returns an array of objects containing `property`, `value`, and `timestamp` (in ms).
@@ -278,14 +278,14 @@ In case you only want to receive the latest datapoint, you can append `/latest` 
 
 ```bash
 curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/abstraction/device/<deviceId>/data/<property>/latest' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 There are several optional query parameter to filter the output, namingly `from` (timestamp in ms), `until` (timestamp in ms), `grouping` (group data by this grouping, $[w,d,h,m,s,ms] (where $ is a number) or [week, day, hour, minute, second] or an ISO-8601 duration), and `aggregate` ("mean", "median", "min", "max", "sum", "count", "first", "last", "std" (standard deviation), "percentile(n)" (0 < n <= 1)).
 
 ```bash
 curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/abstraction/device/5e4d5b0b804235c274aaf84/data/steps?from=1583671549457&until=1583757949457&grouping=hour&aggregate=mean' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 > **Note:** You can query for 2000 points at maximum.
@@ -298,7 +298,7 @@ On `writable` properties you can actuate using the `POST /abstraction/device/<de
 
 ```bash
 curl --location --request POST 'https://dashboard.conradconnect.de/paasapi/abstraction/device/5e4d5b0b80422235c274aaf84/actuate' \
---header 'Authorization: Basic <access_token>' \
+--header 'Authorization: Bearer <access_token>' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --data-raw '{
@@ -328,14 +328,14 @@ In Conrad Connect, projects can be triggered through so-called **Action Buttons*
 
 ```bash
 curl --location --request GET 'https://dashboard.conradconnect.de/paasapi/abstraction/do' \
---header 'Authorization: Basic <access_token>'
+--header 'Authorization: Bearer <access_token>'
 ```
 
 Returns the action button projects for a user. Using the returned `id` of an project, you can activate it:
 
 ```bash
 curl --location --request POST 'https://dashboard.conradconnect.de/paasapi/abstraction/do/<projectId>' \
---header 'Authorization: Basic <access_token>' \
+--header 'Authorization: Bearer <access_token>' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --data-raw '{ "event": "single press" }'
